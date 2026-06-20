@@ -150,6 +150,16 @@ Caching the wrong thing across users is worse than a cache miss. So the default 
 
 `McpResultCache` takes an injectable `clock` (`() => number`), so you can test TTL behavior deterministically without real time — and it also works under `vitest` fake timers driving the default `Date.now`. Both styles are covered in the test suite, including the headline cross-user leak test.
 
+## Part of the StudioMeyer MCP toolkit
+
+A small family of focused, production-grade tools for building and operating MCP servers — mix and match:
+
+- [mcp-armor](https://github.com/studiomeyer-io/mcp-armor) — runtime defense sidecar: scans tool calls, verifies signed manifests, blocks known-bad CVEs
+- [mcp-gauntlet](https://github.com/studiomeyer-io/mcp-gauntlet) — pre-deploy `mcp-fuzz` (schema-aware fuzzer) + `mcp-storm` (load tester)
+- [mcp-otel](https://github.com/studiomeyer-io/mcp-otel) — W3C Trace Context → OpenTelemetry bridge
+- **mcp-cache-kit** *(this one)* — leak-safe SEP-2549 caching (`ttlMs` + `cacheScope`)
+- [skilldoctor](https://github.com/studiomeyer-io/skilldoctor) — linter + security scanner for agent skill files
+
 ## License
 
 [MIT](./LICENSE) © StudioMeyer 2026
