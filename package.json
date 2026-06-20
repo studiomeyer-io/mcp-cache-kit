@@ -1,0 +1,83 @@
+{
+  "name": "mcp-cache-kit",
+  "version": "0.1.0",
+  "description": "Correct, leak-safe caching for the new MCP cache semantics (SEP-2549). Set ttlMs/cacheScope on the server, and honor them safely on the client/proxy so a private result is never served across authorization contexts.",
+  "type": "module",
+  "license": "MIT",
+  "author": "StudioMeyer",
+  "homepage": "https://github.com/studiomeyer-io/mcp-cache-kit#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/studiomeyer-io/mcp-cache-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/studiomeyer-io/mcp-cache-kit/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "context-protocol",
+    "cache",
+    "caching",
+    "ttl",
+    "security",
+    "sep-2549",
+    "proxy",
+    "gateway"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "SECURITY.md"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "attw": "attw --pack .",
+    "lint": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build && npm run typecheck && npm test && npm run attw"
+  },
+  "overrides": {
+    "esbuild": ">=0.28.1"
+  },
+  "peerDependencies": {
+    "@modelcontextprotocol/sdk": ">=1.0.0 <2"
+  },
+  "peerDependenciesMeta": {
+    "@modelcontextprotocol/sdk": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.3",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.9"
+  }
+}
