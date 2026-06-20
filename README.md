@@ -1,4 +1,13 @@
+<!-- studiomeyer-mcp-stack-banner:start -->
+> **Part of the [StudioMeyer MCP Stack](https://studiomeyer.io)** — Built in Mallorca 🌴 · ⭐ if you use it
+<!-- studiomeyer-mcp-stack-banner:end -->
+
 # mcp-cache-kit
+
+[![npm](https://img.shields.io/npm/v/mcp-cache-kit.svg)](https://www.npmjs.com/package/mcp-cache-kit)
+[![CI](https://github.com/studiomeyer-io/mcp-cache-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/studiomeyer-io/mcp-cache-kit/actions/workflows/ci.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/studiomeyer-io/mcp-cache-kit/badge)](https://scorecard.dev/viewer/?uri=github.com/studiomeyer-io/mcp-cache-kit)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 **Correct, leak-safe caching for the new MCP cache semantics ([SEP-2549](https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2549)).**
 
