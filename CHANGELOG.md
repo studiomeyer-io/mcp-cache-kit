@@ -6,6 +6,37 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+- **Hot path never throws on a hostile / non-serializable request.**
+  `McpResultCache.get` / `set` / `getOrLoad` previously threw out of the proxy hot
+  path when a request could not be serialized into a cache key — a circular
+  `params` (`RangeError`), a `BigInt` in `params` (`TypeError`), or a throwing
+  getter on `method`/`params`. In a gateway that keys every request this is a
+  denial-of-service. Such a request is now a fail-safe **miss** (`get`, new
+  `GetMissReason` `"unkeyable-request"`) or **reject** (`set`, new
+  `UncacheableReason` `"unkeyable-request"`), counted in stats, never an exception.
+- **`stableStringify` / `deriveRequestKey` are now cycle-safe** — a circular
+  structure serializes with a `"[Circular]"` marker instead of overflowing the
+  stack. Genuinely shared (diamond) references still serialize in full; only an
+  ancestor cycle is marked.
+
+### Added
+
+- `"unkeyable-request"` member on `UncacheableReason` and `GetMissReason`
+  (additive — existing exhaustive switches keep compiling; the value only appears
+  on the caches request-keying path, never from the `cacheSafety` scope guard).
+- Test coverage for the request-keying safety contract, eviction edges
+  (`maxEntries = 1`, recency refresh on overwrite), the disabled-cache reasons,
+  the TTL exact boundary, and key-construction collision hardening. Suite: 66 → 89
+  tests; line coverage 99.2% → 100%, branch 96.0% → 99.1%.
+
+### CI
+
+- Bump pinned GitHub Actions (supersedes Dependabot #1): `actions/checkout`
+  v4 → v7, `actions/setup-node` v4 → v6, `github/codeql-action/upload-sarif`
+  v3 → v4, `actions/upload-artifact` v4 → v7.
+
 ## [0.1.0] - 2026-06-20
 
 Initial release. Models MCP **SEP-2549** (`ttlMs` + `cacheScope`) from the
