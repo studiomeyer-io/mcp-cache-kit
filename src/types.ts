@@ -108,7 +108,15 @@ export type UncacheableReason =
   /** `ttlMs` was `0` — explicitly "immediately stale", so nothing to store. */
   | "zero-ttl"
   /** A `private` result was offered without a scope identity to key it by. */
-  | "private-without-scope";
+  | "private-without-scope"
+  /**
+   * The request could not be turned into a stable cache key — e.g. a hostile
+   * getter on `method`/`params` threw, or `params` carried a value JSON cannot
+   * serialize (a `BigInt`). Fail-safe: the cache refuses to store it rather than
+   * throwing on the hot path. Only surfaced by the cache's `set` (which keys
+   * requests); the scope/hint guards (`cacheSafety`) never produce it.
+   */
+  | "unkeyable-request";
 
 /**
  * The decision returned by {@link cacheSafety} / used by the cache: may this result

@@ -118,6 +118,7 @@ What the cache guarantees:
 - **`private` never leaks** — a `private` entry stored for scope A is only ever returned to scope A. A different `scopeId`, or no `scopeId`, gets a miss.
 - **`public` is shared** — stored under one shared key and returned to anyone.
 - **Fail-safe** — `set()` silently refuses (and counts as `rejected`) anything it can't prove safe: missing/partial hints, bad `cacheScope`, bad `ttlMs`, `private`-without-`scopeId`, and `ttlMs: 0` (by default).
+- **Never throws on the hot path** — a request it cannot turn into a stable key (a circular `params`, a `BigInt`, a hostile getter on `method`/`params`) is a fail-safe miss (`get`) / reject (`set`) with reason `"unkeyable-request"`, never an exception that could take down a proxy.
 
 ## Guard — `cacheSafety` / `assertCacheSafe`
 
@@ -148,7 +149,7 @@ All individually exported and tested:
 - `validateCacheHints({ ttlMs, cacheScope })` → normalized hints (throws `TypeError` on bad input).
 - `isCacheScope(x)`, `isValidTtlMs(x)` — type guards.
 - `deriveScopeKey(cacheScope, scopeId?)` — the scope-key rule (`undefined` for `private` without a `scopeId`).
-- `deriveRequestKey({ method, params })` / `stableStringify(x)` — deterministic request keys (param key order doesn't matter).
+- `deriveRequestKey({ method, params })` / `stableStringify(x)` — deterministic request keys (param key order doesn't matter; circular structures are rendered with a `"[Circular]"` marker, never a stack overflow).
 - Constants: `CacheScope`, `CACHE_SCOPE_VALUES`, `PUBLIC_SCOPE_KEY`.
 
 ## Fail-safe philosophy
