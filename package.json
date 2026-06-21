@@ -1,6 +1,6 @@
 {
   "name": "mcp-cache-kit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Correct, leak-safe caching for the new MCP cache semantics (SEP-2549). Set ttlMs/cacheScope on the server, and honor them safely on the client/proxy so a private result is never served across authorization contexts.",
   "type": "module",
   "license": "MIT",
