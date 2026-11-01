@@ -6,6 +6,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+
+### Dependency maintenance
+
+- Refresh locked transitive dependencies within existing manifest ranges. This lockfile maintenance does not publish a new package or change its public API.
+
 ### Fixed
 
 - **Hot path never throws on a hostile / non-serializable request.**
